@@ -13,7 +13,7 @@ class Toolbar extends Component{
                 unread messages
               </p>
           
-              <button className="btn btn-default">
+              <button className="btn btn-default" onClick = {() => this.props.bulkSelectMessages}>
                 <i className="fa fa-check-square-o"></i>
               </button>
           
@@ -47,5 +47,9 @@ class Toolbar extends Component{
           </div>
         )
     }
+
+
+
+
 }
 export default Toolbar;
