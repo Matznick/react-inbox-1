@@ -1,15 +1,20 @@
 /* eslint-disable react/prop-types */
 import React, { Component } from 'react'
 import Message from './Message'
+import PropTypes from 'prop-types'
 
-class MessageList extends Component {
+class MassageList extends Component {
   render () {
     return (
-            <div className = "MessageList">
-            {this.props.messages.map((message) => <Message key = {message.id} id = {message.id} subject = {message.subject} read = {message.read} selected = {message.selected} labels = {message.labels} starred = {message.starred} toggleStarFlag ={this.props.toggleStarFlag} toggleCheckedBox = {this.props.toggleCheckedBox}/>)}
+            <div>
+                {this.props.messages.map((message) => <Message key={message.id} id={message.id} subject={message.subject} selected={message.selected} read={message.read} starred={message.starred} labels={message.labels} toggleStarFlag={this.props.toggleStarFlag} toggleSelectedFlag={this.props.toggleSelectedFlag} />)}
             </div>
     )
   }
 }
 
-export default MessageList
+MassageList.propTypes = {
+  messages: PropTypes.array
+}
+
+export default MassageList

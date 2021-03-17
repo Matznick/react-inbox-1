@@ -1,55 +1,58 @@
-import React, {Component} from 'react';
+/* eslint-disable react/prop-types */
+import React, { Component } from 'react'
 
-
-class Toolbar extends Component{
-
-    render(){
-        return(
-            <div className="toolbar">
-            <div className="row toolbar">
-            <div className="col-md-12">
-              <p className="pull-right">
-                <span className="badge badge">2</span>
-                unread messages
-              </p>
-          
-              <button className="btn btn-default" onClick = {() => this.props.bulkSelectMessages}>
-                <i className="fa fa-check-square-o"></i>
-              </button>
-          
-              <button className="btn btn-default">
-                Mark As Read
-              </button>
-          
-              <button className="btn btn-default">
-                Mark As Unread
-              </button>
-          
-              <select className="form-control label-select">
-                <option>Apply label</option>
-                <option value="dev">dev</option>
-                <option value="personal">personal</option>
-                <option value="gschool">gschool</option>
-              </select>
-          
-              <select className="form-control label-select">
-                <option>Remove label</option>
-                <option value="dev">dev</option>
-                <option value="personal">personal</option>
-                <option value="gschool">gschool</option>
-              </select>
-          
-              <button className="btn btn-default">
-                <i className="fa fa-trash-o"></i>
-              </button>
-            </div>
-          </div>
-          </div>
-        )
+class Toolbar extends Component {
+  evalBulkSelectStyle = () => {
+    switch (this.props.bulkSelectState) {
+      case 'none':
+        return 'fa-square-o'
+      case 'all':
+        return 'fa-check-square-o'
+      case 'some':
+        return 'fa-minus-square-o'
+      default:
+        return ''
     }
+  }
 
+  render () {
+    return (
+      <div className="row toolbar">
+        <div className="col-md-12">
+          <p className="pull-right">
+            <span className="badge badge">{this.props.unreadMessageCount}</span>
+            unread messages
+          </p>
 
+          <button className="btn btn-default" onClick={(event) => this.props.bulkSelectMessage(event)}>
+            <i className={`fa ${this.evalBulkSelectStyle()}`}></i>
+          </button>
 
+          <button className="btn btn-default" onClick = {this.props.markSelectedAsRead} >Mark As Read</button>
 
+          <button className="btn btn-default" onClick = {this.props.markSelectedAsUnRead}>Mark As Unread</button>
+
+          <select className="form-control label-select" onChange = {(e) => this.props.addSelectedLabel(e)} >
+            <option>Apply label</option>
+            <option value="dev">dev</option>
+            <option value="personal">personal</option>
+            <option value="gschool">gschool</option>
+          </select>
+
+          <select className="form-control label-select" onChange = {(e) => this.props.removeSelectedLabel(e)}>
+            <option>Remove label</option>
+            <option value="dev">dev</option>
+            <option value="personal">personal</option>
+            <option value="gschool">gschool</option>
+          </select>
+
+          <button className="btn btn-default" onClick = {this.props.deleteSelectedMessages}>
+            <i className="fa fa-trash-o"></i>
+          </button>
+        </div>
+      </div>
+    )
+  }
 }
-export default Toolbar;
+
+export default Toolbar
