@@ -15,6 +15,19 @@ class Toolbar extends Component {
     }
   }
 
+  evalforToolbarActive = () => {
+    switch (this.props.bulkSelectState) {
+      case 'none':
+        return true
+      case 'all':
+        return false
+      case 'some':
+        return false
+      default:
+        return ''
+    }
+  }
+
   render () {
     return (
       <div className="row toolbar">
@@ -28,25 +41,25 @@ class Toolbar extends Component {
             <i className={`fa ${this.evalBulkSelectStyle()}`}></i>
           </button>
 
-          <button className="btn btn-default" onClick = {this.props.markSelectedAsRead} >Mark As Read</button>
+          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {this.props.markSelectedAsRead} >Mark As Read</button>
 
-          <button className="btn btn-default" onClick = {this.props.markSelectedAsUnRead}>Mark As Unread</button>
+          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {this.props.markSelectedAsUnRead}>Mark As Unread</button>
 
-          <select className="form-control label-select" onChange = {(e) => this.props.addSelectedLabel(e)} >
+          <select disabled = {this.evalforToolbarActive()} className="form-control label-select" onChange = {(e) => this.props.addSelectedLabel(e)} >
             <option>Apply label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <select className="form-control label-select" onChange = {(e) => this.props.removeSelectedLabel(e)}>
+          <select disabled = {this.evalforToolbarActive()} className="form-control label-select" onChange = {(e) => this.props.removeSelectedLabel(e)}>
             <option>Remove label</option>
             <option value="dev">dev</option>
             <option value="personal">personal</option>
             <option value="gschool">gschool</option>
           </select>
 
-          <button className="btn btn-default" onClick = {this.props.deleteSelectedMessages}>
+          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {this.props.deleteSelectedMessages}>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>

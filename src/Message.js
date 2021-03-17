@@ -8,7 +8,7 @@ class Message extends Component {
         <div className="col-xs-1">
           <div className="row">
             <div className="col-xs-2">
-              <input type="checkbox" checked={this.props.selected ? 'checked' : ''} onClick={() => this.props.toggleSelectedFlag(this.props.id)} />
+              <input type="checkbox" checked={this.props.selected ? 'checked' : ''} onChange={() => this.props.toggleSelectedFlag(this.props.id)} />
             </div>
             <div className="col-xs-2">
               <i className={`star fa ${this.props.starred ? 'fa-star' : 'fa-star-o'}`} onClick={() => this.props.toggleStarFlag(this.props.id)}></i>
