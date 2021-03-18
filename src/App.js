@@ -42,30 +42,31 @@ class App extends Component {
     await this.getMessagesfromServer()
   }
 
-  toggleStarFlag = (messageId) => {
+  toggleStarFlag = async (messageId) => {
     const body = {
       messageIds: [messageId],
       command: 'star'
     }
-    this.patchMessage(body)
+    await this.patchMessage(body)
   }
 
-  deleteSelectedMessages = () => {
+  deleteSelectedMessages = async () => {
+    console.log('DELETE')
     const body = {
       messageIds: this.getSelectedMessageIds(),
       command: 'delete'
     }
-    this.patchMessage(body)
+    await this.patchMessage(body)
     this.countAllUnreadMessages()
   }
 
-  markSelectedAsRead = (read) => {
+  markSelectedAsRead = async (read) => {
     const body = {
       messageIds: this.getSelectedMessageIds(),
       command: 'read',
       read: read
     }
-    this.patchMessage(body)
+    await this.patchMessage(body)
   }
 
   toggleSelectedFlag = (messageId) => {
@@ -113,22 +114,22 @@ class App extends Component {
     }
   }
 
-  addSelectedLabel = (label) => {
+  addSelectedLabel = async (label) => {
     const body = {
       messageIds: this.getSelectedMessageIds(),
       command: 'addLabel',
       label: label
     }
-    this.patchMessage(body)
+    await this.patchMessage(body)
   }
 
-  removeSelectedLabel = (label) => {
+  removeSelectedLabel = async (label) => {
     const body = {
       messageIds: this.getSelectedMessageIds(),
       command: 'removeLabel',
       label: label
     }
-    this.patchMessage(body)
+    await this.patchMessage(body)
   }
 
   render () {

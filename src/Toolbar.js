@@ -41,9 +41,9 @@ class Toolbar extends Component {
             <i className={`fa ${this.evalBulkSelectStyle()}`}></i>
           </button>
 
-          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {this.props.markSelectedAsRead(true)} >Mark As Read</button>
+          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {() => this.props.markSelectedAsRead(true)} >Mark As Read</button>
 
-          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {this.props.markSelectedAsRead(false)}>Mark As Unread</button>
+          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {() => this.props.markSelectedAsRead(false)}>Mark As Unread</button>
 
           <select disabled = {this.evalforToolbarActive()} className="form-control label-select" onChange = {(e) => this.props.addSelectedLabel(e.target.value)} >
             <option>Apply label</option>
@@ -59,7 +59,11 @@ class Toolbar extends Component {
             <option value="gschool">gschool</option>
           </select>
 
-          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {this.props.deleteSelectedMessages}>
+          <button disabled = {this.evalforToolbarActive()} className="btn btn-default" onClick = {(e) => {
+            e.preventDefault()
+            this.props.deleteSelectedMessages()
+          }
+            }>
             <i className="fa fa-trash-o"></i>
           </button>
         </div>
