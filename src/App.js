@@ -10,15 +10,16 @@ class App extends Component {
     totalUnreadMessageCount: null
   }
 
-  componentDidMount() {
+  componentDidMount () {
     this.getMessagesfromServer()
     this.countAllUnreadMessages()
+    this.setState({ bulkSelectState: this.checkBulkState() })
   }
 
   getMessagesfromServer = async () => {
     const messagesRaw = await fetch('http://localhost:8082/api/messages')
-    const messagesJSON = messagesRaw.json()
-    this.setState({ messages: messagesJSON }, () => console.log(this.state))
+    const messagesJSON = await messagesRaw.json()
+    this.setState({ messages: messagesJSON })
   }
 
   countAllUnreadMessages = () => {
@@ -111,7 +112,7 @@ class App extends Component {
     this.setState({ messages: newList })
   }
 
-  render() {
+  render () {
     return (
       <div className="App">
         <Toolbar
