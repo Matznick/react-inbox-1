@@ -26,13 +26,46 @@ class App extends Component {
     this.setState({ totalUnreadMessageCount: this.state.messages.filter((message) => !message.read).length })
   }
 
+  getSelectedMessageIds = () => (
+    this.state.messages.filter((message) => message.selected).map((message) => message.id)
+  )
+
+  patchMessage = async (body) => {
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'PATCH',
+      body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    })
+    await this.getMessagesfromServer()
+  }
+
   toggleStarFlag = (messageId) => {
-    const itemIndex = this.state.messages.findIndex(
-      (message) => message.id === messageId
-    )
-    const newList = [...this.state.messages]
-    newList[itemIndex].starred = !newList[itemIndex].starred
-    this.setState({ messages: newList })
+    const body = {
+      messageIds: [messageId],
+      command: 'star'
+    }
+    this.patchMessage(body)
+  }
+
+  deleteSelectedMessages = () => {
+    const body = {
+      messageIds: this.getSelectedMessageIds(),
+      command: 'delete'
+    }
+    this.patchMessage(body)
+    this.countAllUnreadMessages()
+  }
+
+  markSelectedAsRead = (read) => {
+    const body = {
+      messageIds: this.getSelectedMessageIds(),
+      command: 'read',
+      read: read
+    }
+    this.patchMessage(body)
   }
 
   toggleSelectedFlag = (messageId) => {
@@ -80,36 +113,22 @@ class App extends Component {
     }
   }
 
-  markSelectedAsRead = () => {
-    const newList = [...this.state.messages]
-    newList.filter((message) => message.selected).map((markedMessages) => (markedMessages.read = true))
-    this.setState({ messages: newList })
-    this.countAllUnreadMessages()
+  addSelectedLabel = (label) => {
+    const body = {
+      messageIds: this.getSelectedMessageIds(),
+      command: 'addLabel',
+      label: label
+    }
+    this.patchMessage(body)
   }
 
-  markSelectedAsUnRead = () => {
-    const newList = [...this.state.messages]
-    newList.filter((message) => message.selected).map((markedMessages) => (markedMessages.read = false))
-    this.setState({ messages: newList })
-    this.countAllUnreadMessages()
-  }
-
-  deleteSelectedMessages = () => {
-    const newList = [...this.state.messages]
-    this.setState({ messages: newList.filter((message) => !message.selected) })
-    this.countAllUnreadMessages()
-  }
-
-  addSelectedLabel = (event) => {
-    const newList = [...this.state.messages]
-    newList.filter((message) => (message.selected) && message.labels.every((label) => label !== event.target.value)).map((message) => (message.labels = [...message.labels, event.target.value]))
-    this.setState({ messages: newList })
-  }
-
-  removeSelectedLabel = (event) => {
-    const newList = [...this.state.messages]
-    newList.filter((message) => (message.selected) && message.labels.some((label) => label === event.target.value)).map((message) => (message.labels = [...message.labels].filter((label) => label !== event.target.value)))
-    this.setState({ messages: newList })
+  removeSelectedLabel = (label) => {
+    const body = {
+      messageIds: this.getSelectedMessageIds(),
+      command: 'removeLabel',
+      label: label
+    }
+    this.patchMessage(body)
   }
 
   render () {
