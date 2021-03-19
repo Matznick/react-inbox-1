@@ -36,6 +36,9 @@ class Toolbar extends Component {
             <span className="badge badge">{this.props.unreadMessageCount}</span>
             unread messages
           </p>
+          <a className="btn btn-danger" onClick = {() => this.props.toggleComposeForm()}>
+      <i className="fa fa-plus"></i>
+    </a>
 
           <button className="btn btn-default" onClick={(event) => this.props.bulkSelectMessage(event)}>
             <i className={`fa ${this.evalBulkSelectStyle()}`}></i>

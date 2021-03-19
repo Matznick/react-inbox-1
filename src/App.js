@@ -2,12 +2,18 @@ import './App.css'
 import Toolbar from './Toolbar'
 import MessageList from './MessageList'
 import React, { Component } from 'react'
+import ComposeForm from './ComposeForm'
 
 class App extends Component {
   state = {
     messages: [],
     bulkSelectState: null,
-    totalUnreadMessageCount: null
+    totalUnreadMessageCount: null,
+    showComposeForm: false
+  }
+
+  toggleComposeForm = () => {
+    this.setState({ showComposeForm: !this.state.showComposeForm })
   }
 
   componentDidMount () {
@@ -144,7 +150,10 @@ class App extends Component {
           addSelectedLabel={this.addSelectedLabel}
           removeSelectedLabel={this.removeSelectedLabel}
           unreadMessageCount={this.state.totalUnreadMessageCount}
+          toggleComposeForm ={this.toggleComposeForm}
+
         />
+        {this.state.showComposeForm && <ComposeForm />}
         <MessageList
           messages={this.state.messages}
           toggleStarFlag={this.toggleStarFlag}
