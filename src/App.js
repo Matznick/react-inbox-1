@@ -12,6 +12,18 @@ class App extends Component {
     showComposeForm: false
   }
 
+  postMessageToServer = async (message) => {
+    await fetch('http://localhost:8082/api/messages', {
+      method: 'POST',
+      body: JSON.stringify(message),
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json'
+      }
+    })
+    this.getMessagesfromServer()
+  }
+
   toggleComposeForm = () => {
     this.setState({ showComposeForm: !this.state.showComposeForm })
   }
@@ -153,7 +165,7 @@ class App extends Component {
           toggleComposeForm ={this.toggleComposeForm}
 
         />
-        {this.state.showComposeForm && <ComposeForm />}
+        {this.state.showComposeForm && <ComposeForm postMessageToServer={this.postMessageToServer} />}
         <MessageList
           messages={this.state.messages}
           toggleStarFlag={this.toggleStarFlag}
